@@ -2,7 +2,7 @@ export const navItems = [
   "Dashboard",
   "Jobs",
   "Workers",
-  "Time",
+  "Daily Log",
   "Materials",
   "Payroll",
   "Reports",
