@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  background: #0f172a;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  padding: 30px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+p {
+  color: #cbd5e1;
+}
+
+.card {
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+}
