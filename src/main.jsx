@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { navItems } from "./data";
 import "./style.css";
+
+const navItems = [
+  "Dashboard",
+  "Jobs",
+  "Workers",
+  "Time",
+  "Materials",
+  "Payroll",
+  "Reports",
+  "Settings",
+];
 
 function App() {
   const [page, setPage] = useState("Dashboard");
@@ -11,10 +21,10 @@ function App() {
       <aside className="sidebar">
         <div className="brand">
           <div className="logo">RRR</div>
-          <div>
-            <h1>Job Tracker</h1>
-            <p>Remodeling Command Center</p>
-          </div>
+
+          <h1>RRR Job Tracker</h1>
+
+          <p>Remodeling Command Center</p>
         </div>
 
         <nav>
@@ -31,37 +41,65 @@ function App() {
       </aside>
 
       <main className="main">
-        <header className="topbar">
+
+        <div className="topbar">
+
           <div>
             <h2>{page}</h2>
             <p>Track labor, materials, payroll, and profit.</p>
           </div>
-          <button className="primaryBtn">+ Add Entry</button>
-        </header>
 
-        <section className="statsGrid">
+          <button className="primaryBtn">
+            + Add Entry
+          </button>
+
+        </div>
+
+        <div className="statsGrid">
+
           <div className="statCard">
             <span>Active Jobs</span>
             <strong>3</strong>
           </div>
+
           <div className="statCard">
             <span>Labor This Week</span>
             <strong>$0.00</strong>
           </div>
+
           <div className="statCard">
             <span>Materials</span>
             <strong>$0.00</strong>
           </div>
+
           <div className="statCard profit">
             <span>Estimated Profit</span>
             <strong>$0.00</strong>
           </div>
-        </section>
 
-        <section className="panel">
+        </div>
+
+        <div className="panel">
           <h3>{page}</h3>
-          <p>This is where the {page.toLowerCase()} screen will go.</p>
-        </section>
+
+          <p>
+            Welcome to the RRR Job Tracker.
+          </p>
+
+          <p>
+            Next we'll build:
+          </p>
+
+          <ul>
+            <li>✔ Jobs</li>
+            <li>✔ Workers</li>
+            <li>✔ Time Tracking</li>
+            <li>✔ Materials</li>
+            <li>✔ Payroll</li>
+            <li>✔ Reports</li>
+          </ul>
+        </div>
+
       </main>
     </div>
   );
