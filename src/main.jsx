@@ -15,21 +15,16 @@ import Payroll from "./pages/Payroll";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
-import {
-  listenToJobs,
-  createJob
-} from "./services/jobsService";
-
-import {
-  listenToWorkers,
-  createWorker
-} from "./services/workersService";
+import { listenToJobs, createJob } from "./services/jobsService";
+import { listenToWorkers, createWorker } from "./services/workersService";
+import { listenToTimeEntries, createTimeEntry } from "./services/timeService";
 
 function App() {
   const [page, setPage] = useState("Dashboard");
 
   const [jobs, setJobs] = useState([]);
   const [workers, setWorkers] = useState([]);
+  const [timeEntries, setTimeEntries] = useState([]);
 
   const [newJob, setNewJob] = useState({
     name: "",
@@ -45,13 +40,24 @@ function App() {
     status: "Active",
   });
 
+  const [timeEntry, setTimeEntry] = useState({
+    workerId: "",
+    jobId: "",
+    date: "",
+    hours: "",
+    lunchMinutes: "",
+    notes: "",
+  });
+
   useEffect(() => {
     const unsubscribeJobs = listenToJobs(setJobs);
     const unsubscribeWorkers = listenToWorkers(setWorkers);
+    const unsubscribeTime = listenToTimeEntries(setTimeEntries);
 
     return () => {
       unsubscribeJobs();
       unsubscribeWorkers();
+      unsubscribeTime();
     };
   }, []);
 
@@ -94,9 +100,43 @@ function App() {
     });
   }
 
+  async function addTimeEntry(e) {
+    e.preventDefault();
+
+    if (!timeEntry.workerId || !timeEntry.jobId || !timeEntry.hours) return;
+
+    await createTimeEntry({
+      ...timeEntry,
+      hours: Number(timeEntry.hours),
+      lunchMinutes: Number(timeEntry.lunchMinutes || 0),
+    });
+
+    setTimeEntry({
+      workerId: "",
+      jobId: "",
+      date: "",
+      hours: "",
+      lunchMinutes: "",
+      notes: "",
+    });
+  }
+
+  function getWorker(workerId) {
+    return workers.find((worker) => worker.id === workerId);
+  }
+
+  const laborTotal = useMemo(() => {
+    return timeEntries.reduce((sum, entry) => {
+      const worker = getWorker(entry.workerId);
+      const rate = Number(worker?.rate || 0);
+      const hours = Number(entry.hours || 0);
+
+      return sum + rate * hours;
+    }, 0);
+  }, [timeEntries, workers]);
+
   const totals = useMemo(() => {
     const contractTotal = jobs.reduce((s, j) => s + Number(j.price || 0), 0);
-    const laborTotal = jobs.reduce((s, j) => s + Number(j.labor || 0), 0);
     const materialTotal = jobs.reduce((s, j) => s + Number(j.materials || 0), 0);
 
     return {
@@ -105,7 +145,7 @@ function App() {
       materialTotal,
       profit: contractTotal - laborTotal - materialTotal,
     };
-  }, [jobs]);
+  }, [jobs, laborTotal]);
 
   function renderPage() {
     switch (page) {
@@ -132,8 +172,16 @@ function App() {
           />
         );
 
-      case "Time":
-        return <Time />;
+      case "Daily Log":
+        return (
+          <Time
+            jobs={jobs}
+            workers={workers}
+            timeEntry={timeEntry}
+            setTimeEntry={setTimeEntry}
+            addTimeEntry={addTimeEntry}
+          />
+        );
 
       case "Materials":
         return <Materials />;
