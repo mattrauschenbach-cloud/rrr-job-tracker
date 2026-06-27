@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./style.css";
@@ -15,21 +15,21 @@ import Payroll from "./pages/Payroll";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
+import {
+  listenToJobs,
+  createJob
+} from "./services/jobsService";
+
+import {
+  listenToWorkers,
+  createWorker
+} from "./services/workersService";
+
 function App() {
   const [page, setPage] = useState("Dashboard");
 
-  const [jobs, setJobs] = useState([
-    {
-      id: 1,
-      name: "Rosemary Garage",
-      customer: "Rosemary Client",
-      address: "15054 Rosemary",
-      price: 32000,
-      status: "In Progress",
-      labor: 0,
-      materials: 0,
-    },
-  ]);
+  const [jobs, setJobs] = useState([]);
+  const [workers, setWorkers] = useState([]);
 
   const [newJob, setNewJob] = useState({
     name: "",
@@ -39,36 +39,33 @@ function App() {
     status: "In Progress",
   });
 
-  const [workers, setWorkers] = useState([
-    {
-      id: 1,
-      name: "Matt",
-      rate: 40,
-      status: "Active",
-    },
-  ]);
-
   const [newWorker, setNewWorker] = useState({
     name: "",
     rate: "",
     status: "Active",
   });
 
-  function addJob(e) {
+  useEffect(() => {
+    const unsubscribeJobs = listenToJobs(setJobs);
+    const unsubscribeWorkers = listenToWorkers(setWorkers);
+
+    return () => {
+      unsubscribeJobs();
+      unsubscribeWorkers();
+    };
+  }, []);
+
+  async function addJob(e) {
     e.preventDefault();
 
     if (!newJob.name || !newJob.price) return;
 
-    setJobs([
-      ...jobs,
-      {
-        id: Date.now(),
-        ...newJob,
-        price: Number(newJob.price),
-        labor: 0,
-        materials: 0,
-      },
-    ]);
+    await createJob({
+      ...newJob,
+      price: Number(newJob.price),
+      labor: 0,
+      materials: 0,
+    });
 
     setNewJob({
       name: "",
@@ -79,20 +76,16 @@ function App() {
     });
   }
 
-  function addWorker(e) {
+  async function addWorker(e) {
     e.preventDefault();
 
     if (!newWorker.name || !newWorker.rate) return;
 
-    setWorkers([
-      ...workers,
-      {
-        id: Date.now(),
-        name: newWorker.name,
-        rate: Number(newWorker.rate),
-        status: newWorker.status,
-      },
-    ]);
+    await createWorker({
+      name: newWorker.name,
+      rate: Number(newWorker.rate),
+      status: newWorker.status,
+    });
 
     setNewWorker({
       name: "",
