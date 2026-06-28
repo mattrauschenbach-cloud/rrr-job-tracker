@@ -1,16 +1,11 @@
-export default function JobCard({ job }) {
-  const contract = Number(job.price || 0);
-  const labor = Number(job.labor || 0);
-  const materials = Number(job.materials || 0);
-  const totalCost = labor + materials;
-  const profit = contract - totalCost;
-  const margin = contract > 0 ? (profit / contract) * 100 : 0;
+export default function JobCard({ job, onOpen }) {
+  const totalCost = Number(job.labor || 0) + Number(job.materials || 0);
+  const profit = Number(job.price || 0) - totalCost;
 
   return (
-    <div className="jobCard premiumJobCard">
+    <div className="jobCard" onClick={() => onOpen && onOpen(job)}>
       <div className="jobTop">
         <div>
-          <span className="eyebrow">Job</span>
           <h4>{job.name || "Unnamed Job"}</h4>
           <p>{job.customer || "No customer added"}</p>
         </div>
@@ -23,7 +18,7 @@ export default function JobCard({ job }) {
       <div className="moneyGrid">
         <div>
           <span>Contract</span>
-          <strong>${contract.toLocaleString()}</strong>
+          <strong>${Number(job.price || 0).toLocaleString()}</strong>
         </div>
 
         <div>
@@ -37,11 +32,6 @@ export default function JobCard({ job }) {
             ${profit.toLocaleString()}
           </strong>
         </div>
-      </div>
-
-      <div className="jobFooter">
-        <span>Margin: {margin.toFixed(1)}%</span>
-        <span>Tap to open soon</span>
       </div>
     </div>
   );
