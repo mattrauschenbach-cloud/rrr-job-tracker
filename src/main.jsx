@@ -213,7 +213,7 @@ function App() {
         return <Materials />;
 
       case "Payroll":
-        return <Payroll />;
+        return <Payroll workers={workers} timeEntries={timeEntries} />;
 
       case "Reports":
         return <Reports />;
