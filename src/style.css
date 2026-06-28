@@ -649,3 +649,19 @@ select:focus {
   color: #94a3b8;
   font-size: 13px;
 }
+.jobCard {
+  cursor: pointer;
+}
+
+.jobCard:hover {
+  border-color: #2563eb;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.jobCard::before {
+  display: none;
+}
+
+.jobFooter {
+  display: none;
+}
