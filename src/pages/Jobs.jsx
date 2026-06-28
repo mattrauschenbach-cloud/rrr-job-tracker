@@ -50,7 +50,7 @@ export default function Jobs({ jobs, newJob, setNewJob, addJob, openJob }) {
       {jobs.length === 0 ? (
         <div className="emptyState">
           <h4>No jobs yet</h4>
-          <p>Add your first job above. Once Firebase saves it, it will show here.</p>
+          <p>Add your first job above.</p>
         </div>
       ) : (
         <div className="jobGrid">
