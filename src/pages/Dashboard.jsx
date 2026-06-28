@@ -1,6 +1,6 @@
 import JobCard from "../components/JobCard";
 
-export default function Dashboard({ jobs, totals }) {
+export default function Dashboard({ jobs, totals, openJob }) {
   return (
     <>
       <section className="statsGrid">
@@ -31,7 +31,7 @@ export default function Dashboard({ jobs, totals }) {
 
         <div className="jobGrid">
           {jobs.map((job) => (
-            <JobCard key={job.id} job={job} />
+            <JobCard key={job.id} job={job} onOpen={openJob} />
           ))}
         </div>
       </section>
