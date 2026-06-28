@@ -1,0 +1,1 @@
+export default function Settings(){return <section className="panel"><h3>Settings</h3><p>Company info, rates, users, and app settings will go here.</p><div className="workspaceCard settingsCard"><h4>RRR OS</h4><p>Version 0.3</p><p>Firebase cloud data enabled.</p></div></section>}
