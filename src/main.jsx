@@ -8,6 +8,7 @@ import Topbar from "./components/Topbar";
 
 import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/Jobs";
+import JobDetails from "./pages/JobDetails";
 import Workers from "./pages/Workers";
 import Time from "./pages/Time";
 import Materials from "./pages/Materials";
@@ -21,6 +22,7 @@ import { listenToTimeEntries, createTimeEntry } from "./services/timeService";
 
 function App() {
   const [page, setPage] = useState("Dashboard");
+  const [selectedJob, setSelectedJob] = useState(null);
 
   const [jobs, setJobs] = useState([]);
   const [workers, setWorkers] = useState([]);
@@ -60,6 +62,16 @@ function App() {
       unsubscribeTime();
     };
   }, []);
+
+  function openJob(job) {
+    setSelectedJob(job);
+    setPage("Job Details");
+  }
+
+  function closeJob() {
+    setSelectedJob(null);
+    setPage("Jobs");
+  }
 
   async function addJob(e) {
     e.preventDefault();
@@ -150,7 +162,7 @@ function App() {
   function renderPage() {
     switch (page) {
       case "Dashboard":
-        return <Dashboard jobs={jobs} totals={totals} />;
+        return <Dashboard jobs={jobs} totals={totals} openJob={openJob} />;
 
       case "Jobs":
         return (
@@ -159,6 +171,20 @@ function App() {
             newJob={newJob}
             setNewJob={setNewJob}
             addJob={addJob}
+            openJob={openJob}
+          />
+        );
+
+      case "Job Details":
+        return selectedJob ? (
+          <JobDetails job={selectedJob} onBack={closeJob} />
+        ) : (
+          <Jobs
+            jobs={jobs}
+            newJob={newJob}
+            setNewJob={setNewJob}
+            addJob={addJob}
+            openJob={openJob}
           />
         );
 
@@ -196,7 +222,7 @@ function App() {
         return <Settings />;
 
       default:
-        return <Dashboard jobs={jobs} totals={totals} />;
+        return <Dashboard jobs={jobs} totals={totals} openJob={openJob} />;
     }
   }
 
