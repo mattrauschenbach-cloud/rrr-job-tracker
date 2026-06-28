@@ -2,15 +2,19 @@ export default function JobCard({ job, onOpen }) {
   const totalCost = Number(job.labor || 0) + Number(job.materials || 0);
   const profit = Number(job.price || 0) - totalCost;
 
+  function handleOpen() {
+    if (onOpen) onOpen(job);
+  }
+
   return (
-    <button className="jobCard clickableCard" onClick={() => onOpen(job)}>
+    <button className="jobCard clickableCard" type="button" onClick={handleOpen}>
       <div className="jobTop">
         <div>
-          <h4>{job.name}</h4>
+          <h4>{job.name || "Unnamed Job"}</h4>
           <p>{job.customer || "No customer added"}</p>
         </div>
 
-        <span className="statusBadge">{job.status}</span>
+        <span className="statusBadge">{job.status || "In Progress"}</span>
       </div>
 
       <p className="address">{job.address || "No address added"}</p>
