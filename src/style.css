@@ -503,3 +503,117 @@ select:focus {
     font-size: 16px;
   }
 }
+.clickableCard {
+  width: 100%;
+  text-align: left;
+  color: white;
+}
+
+.jobDetails {
+  display: grid;
+  gap: 22px;
+}
+
+.jobHero {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.jobHero h3 {
+  font-size: 36px;
+  margin-top: 6px;
+}
+
+.eyebrow {
+  color: #60a5fa;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detailsStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.detailsStats div {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.detailsStats span {
+  display: block;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.detailsStats strong {
+  font-size: 26px;
+}
+
+.workspaceTabs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tab {
+  background: #020617;
+  color: #cbd5e1;
+  border: 1px solid #1e293b;
+  border-radius: 999px;
+  padding: 11px 16px;
+  white-space: nowrap;
+}
+
+.activeTab {
+  background: #2563eb;
+  color: white;
+}
+
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.workspaceCard {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.workspaceCard h4 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.workspaceCard p {
+  color: #cbd5e1;
+  margin-bottom: 8px;
+}
+
+@media(max-width:900px) {
+  .jobHero {
+    flex-direction: column;
+  }
+
+  .jobHero h3 {
+    font-size: 28px;
+  }
+
+  .detailsStats,
+  .workspaceGrid {
+    grid-template-columns: 1fr;
+  }
+}
