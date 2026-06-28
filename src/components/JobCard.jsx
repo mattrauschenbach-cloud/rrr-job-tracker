@@ -1,9 +1,9 @@
-export default function JobCard({ job }) {
-  const totalCost = Number(job.labor) + Number(job.materials);
-  const profit = Number(job.price) - totalCost;
+export default function JobCard({ job, onOpen }) {
+  const totalCost = Number(job.labor || 0) + Number(job.materials || 0);
+  const profit = Number(job.price || 0) - totalCost;
 
   return (
-    <div className="jobCard">
+    <button className="jobCard clickableCard" onClick={() => onOpen(job)}>
       <div className="jobTop">
         <div>
           <h4>{job.name}</h4>
@@ -18,7 +18,7 @@ export default function JobCard({ job }) {
       <div className="moneyGrid">
         <div>
           <span>Contract</span>
-          <strong>${Number(job.price).toLocaleString()}</strong>
+          <strong>${Number(job.price || 0).toLocaleString()}</strong>
         </div>
 
         <div>
@@ -33,6 +33,6 @@ export default function JobCard({ job }) {
           </strong>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
