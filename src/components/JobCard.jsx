@@ -1,16 +1,21 @@
-export default function JobCard({ job, onOpen }) {
-  const totalCost = Number(job.labor || 0) + Number(job.materials || 0);
-  const profit = Number(job.price || 0) - totalCost;
+export default function JobCard({ job }) {
+  const contract = Number(job.price || 0);
+  const labor = Number(job.labor || 0);
+  const materials = Number(job.materials || 0);
+  const totalCost = labor + materials;
+  const profit = contract - totalCost;
+  const margin = contract > 0 ? (profit / contract) * 100 : 0;
 
   return (
-    <button className="jobCard clickableCard" onClick={() => onOpen(job)}>
+    <div className="jobCard premiumJobCard">
       <div className="jobTop">
         <div>
-          <h4>{job.name}</h4>
+          <span className="eyebrow">Job</span>
+          <h4>{job.name || "Unnamed Job"}</h4>
           <p>{job.customer || "No customer added"}</p>
         </div>
 
-        <span className="statusBadge">{job.status}</span>
+        <span className="statusBadge">{job.status || "In Progress"}</span>
       </div>
 
       <p className="address">{job.address || "No address added"}</p>
@@ -18,7 +23,7 @@ export default function JobCard({ job, onOpen }) {
       <div className="moneyGrid">
         <div>
           <span>Contract</span>
-          <strong>${Number(job.price || 0).toLocaleString()}</strong>
+          <strong>${contract.toLocaleString()}</strong>
         </div>
 
         <div>
@@ -33,7 +38,11 @@ export default function JobCard({ job, onOpen }) {
           </strong>
         </div>
       </div>
-    </button>
+
+      <div className="jobFooter">
+        <span>Margin: {margin.toFixed(1)}%</span>
+        <span>Tap to open soon</span>
+      </div>
+    </div>
   );
 }
-
